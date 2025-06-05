@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model TbClient {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(200)
+  cpf      String     @unique(map: "tbClient_unique") @db.VarChar(11)
+  phone    String     @db.VarChar(12)
+  password String     @db.VarChar(255)
+  accounts TbAccount[]
+
+  @@map("tbClient")
+}
+
+model TbAccount {
+  id           Int             @id @default(autoincrement())
+  number       String          @unique(map: "tbAccount_unique") @db.VarChar(9)
+  clientId     Int
+  client       TbClient        @relation(fields: [clientId], references: [id], onDelete: Cascade, map: "tbAccount_tbClient_FK")
+  transactions TbTransaction[]
+
+  @@index([clientId], map: "tbAccount_tbClient_FK")
+  @@map("tbAccount")
+}
+
+model TbTransaction {
+  id        Int             @id @default(autoincrement())
+  amount    Decimal         @db.Decimal(10, 2)
+  type      TransactionType
+  accountId Int
+  account   TbAccount       @relation(fields: [accountId], references: [id], onDelete: Cascade, map: "tbTransaction_tbAccount_FK")
+
+  @@index([accountId], map: "tbTransaction_tbAccount_FK")
+  @@map("tbTransaction")
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
