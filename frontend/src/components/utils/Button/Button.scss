@@ -1,0 +1,15 @@
+@use '../../../styles/styles.scss' as ds;
+
+.button-comp {
+    &.primary {
+        @include ds.button-primary;
+    }
+
+    &.secondary {
+        @include ds.button-secondary;
+    }
+
+    &.disabled {
+        @include ds.button-disabled;
+    }
+}

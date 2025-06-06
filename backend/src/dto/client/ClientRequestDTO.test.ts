@@ -6,7 +6,7 @@ describe('ClientRequestDTO', () => {
             const data = {
                 name: 'John Silva',
                 cpf: '12345678901',
-                phone: '119876543210',
+                phone: '11987654321',
                 password: 'password123'
             };
 
@@ -94,7 +94,7 @@ describe('ClientRequestDTO', () => {
         it('should return error for invalid phone', () => {
             const testCases = [
                 { phone: '1198765432', desc: 'phone with 10 digits' },
-                { phone: '11987654321', desc: 'phone with 11 digits' },
+                { phone: '119876543212', desc: 'phone with 12 digits' },
                 { phone: '11987654321012', desc: 'phone with 14 digits' },
                 { phone: '119876543abc', desc: 'phone with letters' }
             ];
@@ -112,7 +112,7 @@ describe('ClientRequestDTO', () => {
 
                 expect(validation.isValid).toBe(false);
                 expect(validation.errors).toContain(
-                    'Telefone deve conter exatamente 12 dígitos'
+                    'Telefone deve conter exatamente 11 dígitos'
                 );
             });
         });
@@ -139,7 +139,7 @@ describe('ClientRequestDTO', () => {
                 'Senha deve ter pelo menos 6 caracteres'
             );
             expect(validation.errors).toContain(
-                'Telefone deve conter exatamente 12 dígitos'
+                'Telefone deve conter exatamente 11 dígitos'
             );
         });
     });

@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
 import { AuthRequestDTO } from '../dto/auth/AuthRequestDTO';
-import { AuthResponseDTO } from '../dto/auth/AuthResponseDTO';
-import { RequestInterface } from '../interface/RequestInterface';
-import { ResponseInterface } from '../interface/ResponseInterface';
 import { AuthService } from '../service/AuthService';
 
 export class AuthController {
@@ -10,10 +7,7 @@ export class AuthController {
     constructor() {
         this.authService = new AuthService();
     }
-    async login<T>(
-        req: Request<RequestInterface<AuthRequestDTO>>,
-        res: Response<ResponseInterface<AuthResponseDTO>>
-    ) {
+    async login(req: Request, res: Response) {
         try {
             const authRequestDto = new AuthRequestDTO(req.body);
             const validation = authRequestDto.validate();
@@ -28,13 +22,7 @@ export class AuthController {
                 authRequestDto
             );
 
-            return res
-                .status(200)
-                .json({
-                    success: true,
-                    data: authResponseDto
-                })
-                .cookie('token', authResponseDto.token);
+            return res.cookie('token', authResponseDto.token).redirect('/menu');
         } catch (error: any) {
             return res.status(400).json({
                 success: false,

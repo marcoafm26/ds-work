@@ -1,0 +1,5 @@
+@use '../../styles/styles.scss' as ds;
+
+.label-comp {
+    @include ds.label;
+}

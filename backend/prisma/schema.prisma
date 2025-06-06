@@ -11,7 +11,7 @@ model TbClient {
   id       Int        @id @default(autoincrement())
   name     String     @db.VarChar(200)
   cpf      String     @unique(map: "tbClient_unique") @db.VarChar(11)
-  phone    String     @db.VarChar(12)
+  phone    String     @db.VarChar(11)
   password String     @db.VarChar(255)
   accounts TbAccount[]
 

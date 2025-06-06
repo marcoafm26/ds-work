@@ -38,8 +38,18 @@ export class FieldValidators {
             return 'Telefone é obrigatório';
         }
 
-        if (!/^\d{12}$/.test(phone)) {
-            return 'Telefone deve conter exatamente 12 dígitos';
+        if (!/^\d{11}$/.test(phone)) {
+            return 'Telefone deve conter exatamente 11 dígitos';
+        }
+        return null;
+    }
+
+    static validateToken(token: string): string | null {
+        if (!token || token.trim() === '') {
+            return 'Token é obrigatório';
+        }
+        if (token.trim().length < 6) {
+            return 'Token deve ter pelo menos 6 caracteres';
         }
         return null;
     }

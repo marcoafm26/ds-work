@@ -1,0 +1,22 @@
+@use '../../styles/styles.scss' as ds;
+
+.login {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$spacing-md;
+    box-sizing: border-box;
+
+    img {
+        width: 100%;
+    }
+
+    @include ds.modal;
+
+    .button-area {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: ds.$spacing-md;
+        margin-top: ds.$spacing-md;
+    }
+}

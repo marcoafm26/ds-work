@@ -48,5 +48,10 @@
         "ts-jest": "^29.3.4",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.8.3"
+    },
+    "customTemplates": {
+        "component": "templates/component/TemplateName.tsx",
+        "style": "templates/component/TemplateName.scss",
+        "index": "templates/component/index.ts"
     }
 }

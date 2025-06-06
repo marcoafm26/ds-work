@@ -1,0 +1,5 @@
+@use '../../../styles/styles.scss' as ds;
+
+.input-comp {
+    @include ds.input;
+}

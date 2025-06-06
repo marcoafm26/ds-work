@@ -1,17 +1,10 @@
-import { ClientResponseDTO } from '../client/ClientResponseDTO';
+import { FieldValidators } from '../../utils/FieldValidators';
+import { Validatable, ValidationResult } from './../../interface/Validatable';
 
-export class AuthResponseDTO extends ClientResponseDTO {
+export class AuthResponseDTO implements Validatable {
     private _token: string;
 
-    constructor(data: {
-        id: number;
-        name: string;
-        cpf: string;
-        phone: string;
-        password: string;
-        token: string;
-    }) {
-        super(data);
+    constructor(data: { token: string }) {
         this._token = data.token;
     }
 
@@ -19,14 +12,14 @@ export class AuthResponseDTO extends ClientResponseDTO {
         return this._token;
     }
 
-    validate(): { isValid: boolean; errors: string[] } {
+    validate(): ValidationResult {
         const errors: string[] = [];
-        if (!this.token || this.token.length === 0) {
-            errors.push('Token é obrigatório');
-        }
+        const tokenError = FieldValidators.validateToken(this._token);
+        if (tokenError) errors.push(tokenError);
+
         return {
             isValid: errors.length === 0,
-            errors: errors
+            errors
         };
     }
 }
