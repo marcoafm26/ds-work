@@ -9,6 +9,7 @@ export class TransactionResponseDTO implements Validatable {
     _type: TransactionType;
     _accountId: number;
     _createdAt: Date;
+    _transference?: number;
 
     constructor(data: {
         id: number;
@@ -16,12 +17,17 @@ export class TransactionResponseDTO implements Validatable {
         type: TransactionType;
         accountId: number;
         createdAt: Date;
+        transference?: number;
     }) {
         this._id = data.id;
         this._amount = Number(data.amount);
-        this._type = data.type;
+        this._type =
+            data.type === 'CREDIT'
+                ? TransactionType.CREDIT
+                : TransactionType.DEBIT;
         this._accountId = data.accountId;
         this._createdAt = data.createdAt;
+        this._transference = data.transference;
     }
 
     get id(): number {
@@ -72,7 +78,8 @@ export class TransactionResponseDTO implements Validatable {
             amount: this.getFormattedAmount(),
             type: this.getTypeDescription(),
             accountId: this._accountId,
-            createdAt: this.getFormattedDate()
+            createdAt: this.getFormattedDate(),
+            transference: this.getTransference()
         };
     }
 
@@ -97,6 +104,14 @@ export class TransactionResponseDTO implements Validatable {
 
     // Método para descrição amigável do tipo
     getTypeDescription(): string {
+        return this._type === TransactionType.CREDIT ? 'Crédito' : 'Débito';
+    }
+
+    getTransference(): string {
+        if (this._transference) {
+            return 'Transferência';
+        }
+
         return this._type === TransactionType.CREDIT ? 'Depósito' : 'Saque';
     }
 }

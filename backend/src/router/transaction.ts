@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { TransactionController } from '../controller/TransactionController';
+import TransactionController from '../controller/TransactionController';
 
 const transactionController = new TransactionController();
 const transactionRouter = Router();
@@ -15,10 +15,17 @@ transactionRouter.get(
     '/transactions/:accountId',
     (req, res) => transactionController.findAll(req, res) as any
 );
+
 // Obter saldo de uma conta
 transactionRouter.get(
     '/account/:accountId/balance',
     (req, res) => transactionController.getAccountBalance(req, res) as any
+);
+
+// Transferência
+transactionRouter.post(
+    '/transaction/transference',
+    (req, res) => transactionController.transference(req, res) as any
 );
 
 export { transactionRouter };

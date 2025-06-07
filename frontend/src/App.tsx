@@ -7,6 +7,7 @@ import Deposit from './pages/Deposit/Deposit';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Statement from './pages/Statement/Statement';
+import Transference from './pages/Transference/Transference';
 import Withdraw from './pages/Withdraw/Withdraw';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                     <Route path="deposit" element={<Deposit />} />
                     <Route path="withdraw" element={<Withdraw />} />
                     <Route path="statement" element={<Statement />} />
+                    <Route path="transference" element={<Transference />} />
                 </Route>
             </Routes>
         </BrowserRouter>

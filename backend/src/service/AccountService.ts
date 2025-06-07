@@ -44,12 +44,38 @@ export class AccountService {
         return new AccountResponseDTO({ ...account, balance });
     }
 
+    async findById(accountId: number) {
+        const account = await this.accountRepository.findById(accountId);
+        if (!account) {
+            throw new Error('A conta não foi encontrada!');
+        }
+        const balance = await new TransactionService().getAccountBalance(
+            account.id
+        );
+        return new AccountResponseDTO({ ...account, balance });
+    }
+
     async findAll(clientId: number) {
         const accounts = await this.accountRepository.findAll(clientId);
         if (!accounts) {
             throw new Error('O cliente não possui contas!');
         }
 
+        const accountsDto = [];
+        for (const account of accounts) {
+            const balance = await new TransactionService().getAccountBalance(
+                account.id
+            );
+            accountsDto.push(new AccountResponseDTO({ ...account, balance }));
+        }
+        return accountsDto;
+    }
+
+    async findAllAccounts() {
+        const accounts = await this.accountRepository.findAllAccounts();
+        if (!accounts) {
+            throw new Error('Não há contas cadastradas!');
+        }
         const accountsDto = [];
         for (const account of accounts) {
             const balance = await new TransactionService().getAccountBalance(

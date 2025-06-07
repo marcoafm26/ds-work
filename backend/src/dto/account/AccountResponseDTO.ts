@@ -3,7 +3,7 @@ import { Validatable, ValidationResult } from './../../interface/Validatable';
 export class AccountResponseDTO implements Validatable {
     _id: number;
     _number: string;
-    _client: number;
+    _clientId: number;
     _balance: number;
 
     constructor(data: {
@@ -14,7 +14,7 @@ export class AccountResponseDTO implements Validatable {
     }) {
         this._id = data.id;
         this._number = data.number;
-        this._client = data.clientId;
+        this._clientId = data.clientId;
         this._balance = data.balance;
     }
 
@@ -32,8 +32,8 @@ export class AccountResponseDTO implements Validatable {
         this._balance = value;
     }
 
-    get client(): number {
-        return this._client;
+    get clientId(): number {
+        return this._clientId;
     }
 
     validate(): ValidationResult {
@@ -49,7 +49,7 @@ export class AccountResponseDTO implements Validatable {
         return {
             id: this._id,
             number: this._number,
-            clientId: this._client,
+            clientId: this._clientId,
             balance: this._balance
         };
     }

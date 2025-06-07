@@ -1,9 +1,10 @@
+import { TransactionType } from '@prisma/client';
 import { Request, Response } from 'express';
 import { TransactionRequestDTO } from '../dto/transaction/TransactionRequestDTO';
 import { AccountService } from '../service/AccountService';
 import { TransactionService } from '../service/TransactionService';
 
-export class TransactionController {
+export default class TransactionController {
     private transactionService: TransactionService;
     private accountService: AccountService;
 
@@ -14,12 +15,13 @@ export class TransactionController {
 
     async create(req: Request, res: Response) {
         try {
-            const { accountId, amount, type } = req.body;
+            const { accountId, amount, type, transference } = req.body;
 
             const transactionDTO = new TransactionRequestDTO({
                 accountId: parseInt(accountId),
                 amount: parseFloat(amount),
-                type
+                type,
+                transference: parseInt(transference)
             });
 
             const validationErrors = transactionDTO.validate();
@@ -27,6 +29,42 @@ export class TransactionController {
                 return res.status(400).json({
                     success: false,
                     errors: validationErrors.errors
+                });
+            }
+
+            if (transactionDTO.type === TransactionType.CREDIT) {
+                let totalBalance = 0;
+                const account = await new AccountService().findById(
+                    parseInt(accountId)
+                );
+
+                let accounts = await this.accountService.findAll(
+                    account.clientId
+                );
+                accounts.forEach((account) => {
+                    totalBalance += account.balance;
+                });
+
+                let transaction;
+
+                if (transactionDTO.amount > totalBalance) {
+                    transaction = await this.transactionService.create(
+                        new TransactionRequestDTO({
+                            accountId: parseInt(accountId),
+                            amount: parseFloat(amount) * 1.1,
+                            type: 'CREDIT'
+                        })
+                    );
+                } else {
+                    transaction = await this.transactionService.create(
+                        transactionDTO
+                    );
+                }
+
+                return res.status(201).json({
+                    success: true,
+                    message: 'Transação criada com sucesso!',
+                    data: transaction
                 });
             }
 
@@ -95,6 +133,50 @@ export class TransactionController {
                         .toFixed(2)
                         .replace('.', ',')}`
                 }
+            });
+        } catch (error: any) {
+            return res.status(400).json({
+                success: false,
+                errors: [error?.message]
+            });
+        }
+    }
+
+    async transference(req: Request, res: Response) {
+        try {
+            const { accountId, targetAccountId, amount } = req.body;
+            const accountDto = await new AccountService().findById(
+                parseInt(accountId)
+            );
+            const accountValidation = accountDto.validate();
+            if (!accountValidation.isValid) {
+                return res.status(400).json({
+                    success: false,
+                    errors: accountValidation.errors
+                });
+            }
+
+            const targetAccountDto = await new AccountService().findById(
+                parseInt(targetAccountId)
+            );
+            const targetAccountValidation = targetAccountDto.validate();
+            if (!targetAccountValidation.isValid) {
+                return res.status(400).json({
+                    success: false,
+                    errors: targetAccountValidation.errors
+                });
+            }
+
+            const transference = await new TransactionService().transference(
+                accountDto,
+                targetAccountDto,
+                parseFloat(amount)
+            );
+
+            return res.status(200).json({
+                success: true,
+                message: 'Transferência realizada com sucesso!',
+                data: transference
             });
         } catch (error: any) {
             return res.status(400).json({

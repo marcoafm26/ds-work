@@ -1,32 +1,9 @@
-/*
-  Warnings:
-
-  - You are about to drop the `tbCliente` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `tbConta` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `tbLancamento` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE `tbConta` DROP FOREIGN KEY `tbConta_tbCliente_FK`;
-
--- DropForeignKey
-ALTER TABLE `tbLancamento` DROP FOREIGN KEY `tbLancamento_tbConta_FK`;
-
--- DropTable
-DROP TABLE `tbCliente`;
-
--- DropTable
-DROP TABLE `tbConta`;
-
--- DropTable
-DROP TABLE `tbLancamento`;
-
 -- CreateTable
 CREATE TABLE `tbClient` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(200) NOT NULL,
     `cpf` VARCHAR(11) NOT NULL,
-    `phone` VARCHAR(12) NOT NULL,
+    `phone` VARCHAR(11) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
 
     UNIQUE INDEX `tbClient_unique`(`cpf`),
@@ -48,8 +25,10 @@ CREATE TABLE `tbAccount` (
 CREATE TABLE `tbTransaction` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `amount` DECIMAL(10, 2) NOT NULL,
-    `type` ENUM('credit', 'debit') NOT NULL,
+    `type` ENUM('CREDIT', 'DEBIT') NOT NULL,
+    `transference` INTEGER NULL,
     `accountId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `tbTransaction_tbAccount_FK`(`accountId`),
     PRIMARY KEY (`id`)

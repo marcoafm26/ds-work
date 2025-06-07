@@ -1,4 +1,5 @@
 import { TransactionType } from '@prisma/client';
+import { AccountResponseDTO } from '../dto/account/AccountResponseDTO';
 import { TransactionRequestDTO } from '../dto/transaction/TransactionRequestDTO';
 import { TransactionResponseDTO } from '../dto/transaction/TransactionResponseDTO';
 import { AccountRepository } from '../repository/AccountRepository';
@@ -30,6 +31,7 @@ export class TransactionService {
                 await this.transactionRepository.getAccountBalance(
                     transactionData.accountId
                 );
+
             if (currentBalance < transactionData.amount) {
                 throw new Error(
                     'Saldo insuficiente para realizar a transação!'
@@ -42,7 +44,14 @@ export class TransactionService {
             transactionData.toPrismaData()
         );
 
-        return new TransactionResponseDTO(createdTransaction);
+        return new TransactionResponseDTO({
+            id: createdTransaction.id,
+            amount: createdTransaction.amount,
+            type: createdTransaction.type,
+            accountId: createdTransaction.accountId,
+            createdAt: createdTransaction.createdAt,
+            transference: createdTransaction.transference || undefined
+        });
     }
 
     async findAll(accountId: number): Promise<TransactionResponseDTO[]> {
@@ -56,7 +65,8 @@ export class TransactionService {
                     amount: transaction.amount,
                     type: transaction.type,
                     accountId: transaction.accountId,
-                    createdAt: transaction.createdAt
+                    createdAt: transaction.createdAt,
+                    transference: transaction.transference || 0
                 })
         );
     }
@@ -69,5 +79,53 @@ export class TransactionService {
         }
 
         return await this.transactionRepository.getAccountBalance(accountId);
+    }
+
+    async transference(
+        accountDto: AccountResponseDTO,
+        targetAccountDto: AccountResponseDTO,
+        amount: number
+    ) {
+        if (accountDto.balance < amount) {
+            throw new Error('Saldo insuficiente para realizar a transação!');
+        }
+
+        if (accountDto.id === targetAccountDto.id) {
+            throw new Error('Não é possível transferir para a mesma conta!');
+        }
+
+        if (accountDto.clientId !== targetAccountDto.clientId) {
+            const taxAmount = amount * 0.9;
+            const transactionDTO = new TransactionRequestDTO({
+                accountId: accountDto.id,
+                amount: amount,
+                type: TransactionType.DEBIT,
+                transference: 1
+            });
+            await this.create(transactionDTO);
+
+            const targetTransactionDTO = new TransactionRequestDTO({
+                accountId: targetAccountDto.id,
+                amount: taxAmount,
+                type: TransactionType.CREDIT,
+                transference: 1
+            });
+            await this.create(targetTransactionDTO);
+        } else {
+            const transactionDTO = new TransactionRequestDTO({
+                accountId: accountDto.id,
+                amount: amount,
+                type: TransactionType.DEBIT,
+                transference: 1
+            });
+            await this.create(transactionDTO);
+            const targetTransactionDTO = new TransactionRequestDTO({
+                accountId: targetAccountDto.id,
+                amount: amount,
+                type: TransactionType.CREDIT,
+                transference: 1
+            });
+            await this.create(targetTransactionDTO);
+        }
     }
 }

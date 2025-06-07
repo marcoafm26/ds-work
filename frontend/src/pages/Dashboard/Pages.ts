@@ -22,5 +22,11 @@ export const pages = [
         title: 'Extratos',
         description: 'Gerenciar extratos',
         link: '/statement'
+    },
+    {
+        logo: '/statement.png',
+        title: 'Transferências',
+        description: 'Gerenciar transferências',
+        link: '/transference'
     }
 ];

@@ -20,6 +20,7 @@ interface Transaction {
     amount: number;
     type: string;
     accountId: number;
+    transference: string;
 }
 
 const Statement = () => {
@@ -67,6 +68,7 @@ const Statement = () => {
         });
 
         const result = await response.json();
+        console.log(result);
         setTransactions(result.data);
         setLoading(false);
     };
@@ -99,16 +101,18 @@ const Statement = () => {
                     <thead>
                         <tr>
                             <th>Data</th>
-                            <th>Tipo</th>
                             <th>Valor</th>
+                            <th>Tipo</th>
+                            <th>Operação</th>
                         </tr>
                     </thead>
                     <tbody>
                         {transactions.map((transaction, index) => (
                             <tr key={index}>
                                 <td>{transaction.createdAt}</td>
-                                <td>{transaction.type}</td>
                                 <td>R$ {transaction.amount}</td>
+                                <td>{transaction.type}</td>
+                                <td>{transaction.transference}</td>
                             </tr>
                         ))}
                     </tbody>

@@ -36,6 +36,7 @@ export class AccountController {
     async findAll(req: Request, res: Response) {
         try {
             const { clientId } = req.params;
+
             const clientDTO = await new ClientService().findById(
                 parseInt(clientId)
             );
@@ -54,6 +55,22 @@ export class AccountController {
                 success: true,
                 message: 'Contas encontradas com sucesso!',
                 data: accountsDto.map((account) => account.toPrismaData())
+            });
+        } catch (error: any) {
+            return res.status(400).json({
+                success: false,
+                errors: [error?.message]
+            });
+        }
+    }
+
+    async findAllAccounts(req: Request, res: Response) {
+        try {
+            const accounts = await this.accountService.findAllAccounts();
+            return res.status(200).json({
+                success: true,
+                message: 'Contas encontradas com sucesso!',
+                data: accounts.map((account) => account.toPrismaData())
             });
         } catch (error: any) {
             return res.status(400).json({

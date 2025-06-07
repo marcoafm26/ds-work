@@ -38,6 +38,12 @@ export class AccountRepository {
         const accounts = await prisma.tbAccount.findMany({
             where: { clientId: clientId }
         });
+
+        return accounts;
+    }
+
+    async findAllAccounts() {
+        const accounts = await prisma.tbAccount.findMany();
         return accounts;
     }
 }
