@@ -3,6 +3,14 @@
 .account {
     @include ds.modal;
 
+    .error-message {
+        @include ds.error-message;
+    }
+
+    select {
+        @include ds.input;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;

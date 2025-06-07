@@ -85,4 +85,24 @@ export class AccountService {
         }
         return accountsDto;
     }
+
+    async updateCredit(accountId: number, credit: number) {
+        const account = await this.accountRepository.findById(accountId);
+        if (!account) {
+            throw new Error('A conta não foi encontrada!');
+        }
+        const balance = await new TransactionService().getAccountBalance(
+            account.id
+        );
+        if (credit < Number(account.credit)) {
+            throw new Error(
+                'O crédito não pode ser menor que o crédito atual!'
+            );
+        }
+
+        const updatedAccount = await this.accountRepository.update(accountId, {
+            credit
+        });
+        return new AccountResponseDTO({ ...updatedAccount, balance });
+    }
 }

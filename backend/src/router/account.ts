@@ -14,6 +14,11 @@ accountRouter.get(
     (req, res) => accountController.findAll(req, res) as any
 );
 
+accountRouter.put(
+    '/account/:accountId',
+    (req, res) => accountController.updateCredit(req, res) as any
+);
+
 accountRouter.get(
     '/accounts',
     (req, res) => accountController.findAllAccounts(req, res) as any

@@ -79,4 +79,23 @@ export class AccountController {
             });
         }
     }
+
+    async updateCredit(req: Request, res: Response) {
+        try {
+            const { accountId, credit } = req.body;
+            await this.accountService.updateCredit(
+                parseInt(accountId),
+                parseFloat(credit)
+            );
+            return res.status(200).json({
+                success: true,
+                message: 'Conta atualizada com sucesso!'
+            });
+        } catch (error: any) {
+            return res.status(400).json({
+                success: false,
+                errors: [error?.message]
+            });
+        }
+    }
 }

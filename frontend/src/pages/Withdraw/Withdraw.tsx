@@ -15,6 +15,7 @@ export interface Account {
     number: string;
     balance: number;
     createdAt: string;
+    credit: number;
 }
 
 const Withdraw = () => {
@@ -50,7 +51,6 @@ const Withdraw = () => {
     };
 
     const handleWithdraw = async (data: WithdrawSchema) => {
-        console.log(data);
         setLoading(true);
         setError(null);
 
@@ -99,6 +99,8 @@ const Withdraw = () => {
                             <option key={account.id} value={account.id}>
                                 {account.number} - R${' '}
                                 {account.balance.toFixed(2)}
+                                {' - '}
+                                {account.credit} Crédito
                             </option>
                         ))}
                     </select>

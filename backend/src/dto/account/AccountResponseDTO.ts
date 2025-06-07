@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime/library';
 import { FieldValidators } from '../../utils/FieldValidators';
 import { Validatable, ValidationResult } from './../../interface/Validatable';
 export class AccountResponseDTO implements Validatable {
@@ -5,17 +6,20 @@ export class AccountResponseDTO implements Validatable {
     _number: string;
     _clientId: number;
     _balance: number;
+    _credit?: number;
 
     constructor(data: {
         id: number;
         number: string;
         clientId: number;
         balance: number;
+        credit?: number | Decimal;
     }) {
         this._id = data.id;
         this._number = data.number;
         this._clientId = data.clientId;
         this._balance = data.balance;
+        this._credit = Number(data.credit || 0);
     }
 
     get id(): number {
@@ -36,6 +40,10 @@ export class AccountResponseDTO implements Validatable {
         return this._clientId;
     }
 
+    get credit() {
+        return this._credit;
+    }
+
     validate(): ValidationResult {
         const balanceError = FieldValidators.validateBalance(this._balance);
 
@@ -50,7 +58,8 @@ export class AccountResponseDTO implements Validatable {
             id: this._id,
             number: this._number,
             clientId: this._clientId,
-            balance: this._balance
+            balance: this._balance,
+            credit: this._credit
         };
     }
 }

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `tbAccount` ADD COLUMN `credit` DECIMAL(10, 2) NOT NULL DEFAULT 0;

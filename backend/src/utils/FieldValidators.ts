@@ -56,7 +56,7 @@ export class FieldValidators {
     }
 
     static validateBalance(balance: number): string | null {
-        if (!balance) {
+        if (balance < 0) {
             return 'Saldo é obrigatório';
         }
         if (balance < 0) {
