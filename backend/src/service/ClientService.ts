@@ -34,6 +34,14 @@ export class ClientService {
         return new ClientResponseDTO(await this.clientRepository.delete(id));
     }
 
+    async findById(id: number) {
+        const client = await this.clientRepository.findById(id);
+        if (!client) {
+            throw new Error('O id não foi encontrado!');
+        }
+        return new ClientResponseDTO(client);
+    }
+
     async findByCpf(cpf: string) {
         const client = await this.clientRepository.findByCpf(cpf);
         if (!client) {

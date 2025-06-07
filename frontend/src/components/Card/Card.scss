@@ -1,0 +1,47 @@
+@use '../../styles/styles.scss' as ds;
+
+.card {
+    background-color: ds.$color-white;
+    border-radius: ds.$border-radius-lg;
+    box-shadow: 0 4px 6px ds.$color-shadow;
+    box-sizing: border-box;
+    padding: ds.$spacing-lg;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid transparent;
+    width: 100%;
+    height: 100%;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-color: ds.$color-secondary;
+    }
+
+    img {
+        width: 100%;
+        margin-bottom: ds.$spacing-md;
+        filter: brightness(0) saturate(100%) invert(8%) sepia(96%)
+            saturate(7471%) hue-rotate(217deg) brightness(95%) contrast(118%);
+        transition: filter 0.3s ease;
+    }
+
+    h2 {
+        color: ds.$color-primary;
+        font-size: ds.$font-size-xl;
+        font-weight: 600;
+        margin: 0 0 ds.$spacing-sm 0;
+        line-height: 1.2;
+    }
+
+    p {
+        color: ds.$color-gray;
+        font-size: ds.$font-size-base;
+        margin: 0;
+        line-height: 1.4;
+    }
+}

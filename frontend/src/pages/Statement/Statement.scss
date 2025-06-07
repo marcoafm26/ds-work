@@ -1,0 +1,45 @@
+@use '../../styles/styles.scss' as ds;
+
+.statement {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$spacing-md;
+    box-sizing: border-box;
+
+    @include ds.modal;
+
+    img {
+        width: 100%;
+    }
+    select {
+        @include ds.input;
+    }
+
+    .error-message {
+        @include ds.error-message;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: ds.$spacing-md;
+        & th,
+        & td {
+            padding: ds.$spacing-sm ds.$spacing-md;
+            text-align: left;
+            border-bottom: 1px solid ds.$color-light;
+        }
+        & th {
+            background-color: ds.$color-light;
+        }
+    }
+
+    .button-area {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: ds.$spacing-md;
+        margin-top: ds.$spacing-md;
+    }
+}

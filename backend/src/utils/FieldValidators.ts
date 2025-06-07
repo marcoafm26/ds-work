@@ -1,3 +1,5 @@
+import { TransactionType } from '@prisma/client';
+
 export class FieldValidators {
     static validateCPF(cpf: string): string | null {
         if (!cpf || cpf.trim() === '') {
@@ -22,7 +24,6 @@ export class FieldValidators {
     }
 
     static validateName(name: string): string | null {
-        console.log(name);
         if (!name || name.trim() === '') {
             return 'Nome é obrigatório';
         }
@@ -51,6 +52,60 @@ export class FieldValidators {
         if (token.trim().length < 6) {
             return 'Token deve ter pelo menos 6 caracteres';
         }
+        return null;
+    }
+
+    static validateBalance(balance: number): string | null {
+        if (!balance) {
+            return 'Saldo é obrigatório';
+        }
+        if (balance < 0) {
+            return 'Saldo deve ser maior ou igual a 0';
+        }
+        return null;
+    }
+
+    static validateAccountNumber(accountNumber: string): string | null {
+        if (!accountNumber || accountNumber.trim() === '') {
+            return 'Número da conta é obrigatório';
+        }
+        if (accountNumber.trim().length < 9) {
+            return 'Número da conta deve ter pelo menos 9 caracteres';
+        }
+
+        return null;
+    }
+
+    static validateTransactionAmount(amount: number): string | null {
+        if (!amount || amount <= 0) {
+            return 'Valor deve ser maior que zero';
+        }
+
+        if (amount > 999999.99) {
+            return 'Valor não pode exceder R$ 999.999,99';
+        }
+
+        return null;
+    }
+
+    static validateTransactionType(type: TransactionType): string | null {
+        if (!type || type.trim() === '') {
+            return 'Tipo de transação é obrigatório';
+        }
+
+        const validTypes = ['CREDIT', 'DEBIT'];
+        if (!validTypes.includes(type)) {
+            return 'Tipo de transação inválido. Use CREDIT ou DEBIT';
+        }
+
+        return null;
+    }
+
+    static validateAccountId(accountId: number): string | null {
+        if (!accountId || accountId <= 0) {
+            return 'ID da conta é obrigatório e deve ser maior que zero';
+        }
+
         return null;
     }
 }

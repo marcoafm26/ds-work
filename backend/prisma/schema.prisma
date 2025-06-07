@@ -34,6 +34,7 @@ model TbTransaction {
   amount    Decimal         @db.Decimal(10, 2)
   type      TransactionType
   accountId Int
+  createdAt DateTime        @default(now())
   account   TbAccount       @relation(fields: [accountId], references: [id], onDelete: Cascade, map: "tbTransaction_tbAccount_FK")
 
   @@index([accountId], map: "tbTransaction_tbAccount_FK")

@@ -1,0 +1,21 @@
+@use '../../styles/styles.scss' as ds;
+
+.withdraw {
+    @include ds.modal;
+    select {
+        @include ds.input;
+    }
+
+    .error-message {
+        @include ds.error-message;
+    }
+
+    .button-area {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: ds.$spacing-md;
+        margin-top: ds.$spacing-md;
+    }
+}

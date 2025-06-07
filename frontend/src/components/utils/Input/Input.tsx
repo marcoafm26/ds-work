@@ -19,14 +19,18 @@ const maskConfig = {
 };
 
 const Input = ({ mask, className, ...rest }: InputProps) => {
-    return (
-        <InputMask
-            {...rest}
-            mask={mask ? maskConfig[mask].mask : undefined}
-            replacement={mask ? maskConfig[mask].replacement : undefined}
-            className={classNames('input-comp', className)}
-        />
-    );
+    if (mask) {
+        return (
+            <InputMask
+                {...rest}
+                mask={maskConfig[mask].mask}
+                replacement={maskConfig[mask].replacement}
+                className={classNames('input-comp', className)}
+            />
+        );
+    }
+
+    return <input {...rest} className={classNames('input-comp', className)} />;
 };
 
 Input.displayName = 'Input';

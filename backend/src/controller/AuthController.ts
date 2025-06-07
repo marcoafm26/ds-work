@@ -22,7 +22,15 @@ export class AuthController {
                 authRequestDto
             );
 
-            return res.cookie('token', authResponseDto.token).redirect('/menu');
+            return res
+                .cookie('token', authResponseDto.token, {
+                    httpOnly: true
+                })
+                .json({
+                    success: true,
+                    message: 'Login realizado com sucesso',
+                    user: authResponseDto
+                });
         } catch (error: any) {
             return res.status(400).json({
                 success: false,

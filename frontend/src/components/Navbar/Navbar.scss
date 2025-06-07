@@ -1,0 +1,44 @@
+@use '../../styles/styles.scss' as ds;
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    color: ds.$color-dark;
+    gap: ds.$spacing-sm;
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        gap: ds.$spacing-md;
+        flex: 1;
+
+        img {
+            max-width: 120px;
+            max-height: 40px;
+        }
+
+        .navbar__right {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row;
+            gap: ds.$spacing-md;
+
+            h2 {
+                text-wrap: nowrap;
+                font-size: ds.$font-size-sm;
+            }
+            button {
+                max-width: 70px;
+            }
+        }
+    }
+
+    &__divider {
+        width: 100%;
+        height: 2px;
+        background-color: ds.$color-primary;
+    }
+}

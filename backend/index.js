@@ -1,6 +1,6 @@
 import express from 'express';
-import cookieJwtAuth from './src/middleware/cookieJwtAuth';
-import { authRouter } from './src/router/auth';
+import cookieJwtAuth from './src/middleware/cookieJwtAuth.js';
+import { authRouter } from './src/router/auth.js';
 
 // Use the express.json() middleware to parse JSON bodies
 const app = express();

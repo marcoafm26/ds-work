@@ -1,0 +1,27 @@
+@use '../../styles/styles.scss' as ds;
+
+.register {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$spacing-md;
+    box-sizing: border-box;
+
+    img {
+        width: 100%;
+    }
+
+    @include ds.modal;
+
+    .error-message {
+        @include ds.error-message;
+    }
+
+    .button-area {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: ds.$spacing-md;
+        margin-top: ds.$spacing-md;
+    }
+}

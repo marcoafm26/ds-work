@@ -1,0 +1,20 @@
+@use '../../styles/styles.scss' as ds;
+
+.dashboard {
+    @include ds.modal;
+    .card__grid {
+        margin-top: ds.$spacing-md;
+        box-sizing: border-box;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        width: 100%;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: ds.$spacing-md;
+
+        @media screen and (min-width: 768px) {
+            grid-template-columns: repeat(auto-fill, minmax(1fr, 150px));
+            gap: ds.$spacing-lg;
+        }
+    }
+}

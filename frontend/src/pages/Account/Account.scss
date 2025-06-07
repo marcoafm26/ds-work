@@ -1,0 +1,33 @@
+@use '../../styles/styles.scss' as ds;
+
+.account {
+    @include ds.modal;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: ds.$spacing-md;
+        & th,
+        & td {
+            padding: ds.$spacing-sm ds.$spacing-md;
+            text-align: left;
+            border-bottom: 1px solid ds.$color-light;
+        }
+        & th {
+            background-color: ds.$color-light;
+        }
+    }
+
+    h2 {
+        text-align: center;
+        margin: ds.$spacing-lg;
+    }
+    .button-area {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: ds.$spacing-md;
+        margin-top: ds.$spacing-md;
+    }
+}

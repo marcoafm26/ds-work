@@ -1,0 +1,6 @@
+@use '../../styles/styles.scss' as ds;
+.header {
+    h2 {
+        margin: ds.$spacing-md;
+    }
+}

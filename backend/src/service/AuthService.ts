@@ -29,6 +29,6 @@ export class AuthService {
         const token = generateToken(
             new ClientResponseDTO(client).toPrismaData()
         );
-        return new AuthResponseDTO({ ...client, token });
+        return new AuthResponseDTO({ ...client, token }).toPrismaData();
     }
 }
